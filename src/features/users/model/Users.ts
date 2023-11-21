@@ -8,6 +8,6 @@ const userSchema = new Schema<UserStructure>({
   salt: { type: String, required: true },
 });
 
-const User = model("Users", userSchema, "users");
+const User = model("User", userSchema, "User");
 
 export default User;

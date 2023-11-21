@@ -6,7 +6,8 @@ class UserMongooseRepository {
     username: string,
     password: string,
   ): Promise<UserStructure> => {
-    const user = await User.findOne({ username });
+    console.log(`${username} ${password}`);
+    const user = await User.findOne({ user: username });
     if (!user) {
       throw new Error("Username not found");
     }
