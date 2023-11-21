@@ -2,9 +2,9 @@ import { type Request } from "express";
 
 export interface UserStructure {
   _id: string;
-  name: string;
-  username: string;
+  user: string;
   password: string;
+  salt: string;
 }
 
 export interface UserMongooseRepositoryStructure {
