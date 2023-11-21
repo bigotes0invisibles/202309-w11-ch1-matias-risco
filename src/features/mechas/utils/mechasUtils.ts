@@ -9,3 +9,9 @@ export const mechaApiToMecha = ({
   ...mechaBasic,
   characteristics: { speed: +speed, strength: +strength },
 });
+
+export const mechaWithOutId = ({ id, ...mechabase }: MechaStructure) =>
+  mechabase;
+
+export const mechasWithOutId = (mechas: MechaStructure[]) =>
+  mechas.map((mecha) => mechaWithOutId(mecha));
