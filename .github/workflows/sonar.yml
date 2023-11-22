@@ -16,9 +16,12 @@ jobs:
       - name: Install Node Modules
         run: npm ci
       - name: Coverage
+        env:
+          JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
         run: npm run test:coverage
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
+          JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

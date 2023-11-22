@@ -3,10 +3,10 @@ import {
   type UserCredentialStructure,
   type UserMongooseRepositoryStructure,
 } from "../../types";
-import usersMock from "../../mocks/mockData";
-import UserController from "../UserController";
 import { type NextFunction } from "connect";
 import type CustomError from "../../../../CustomError/CustomError";
+import usersMock from "../../mocks/mockData";
+import UserController from "../UserController";
 
 beforeEach(() => {
   jest.restoreAllMocks();
