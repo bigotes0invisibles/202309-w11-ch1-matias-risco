@@ -5,7 +5,8 @@
   "type": "module",
   "main": "dist/index.js",
   "engines": {
-    "node": ">=20.6.1"
+    "npm": "^9",
+    "node": ">=20"
   },
   "scripts": {
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -16,6 +17,7 @@
     "test": "jest",
     "test:dev": "jest --watchAll",
     "test:coverage": "jest --coverage",
+    "resolver": "jest-ts-webcompat-resolver",
     "prepare": "husky install"
   },
   "keywords": [],

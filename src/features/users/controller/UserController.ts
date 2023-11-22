@@ -1,9 +1,8 @@
-import jwt from "jsonwebtoken";
 import type UserMongooseRepository from "../repository/UsersMongooseRepository.js";
 import { type Response } from "express";
-import { type JwtPayload } from "jsonwebtoken";
 import { type UserCredentialStructure } from "../types.js";
 import { type NextFunction } from "connect";
+import jwt, { type JwtPayload } from "jsonwebtoken";
 import CustomError from "../../../CustomError/CustomError.js";
 
 class UserController {
