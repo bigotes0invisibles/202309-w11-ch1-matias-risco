@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { notFound } from "./errorMiddleware";
+import type CustomError from "../../CustomError/CustomError";
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -7,26 +8,21 @@ beforeEach(() => {
 
 describe("Given the middleware notFound", () => {
   describe("When notfound is call with a Response as a parameter", () => {
-    const request = {};
-    const response: Pick<Response, "status" | "json"> = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    };
+    test("Then it should call next with  error: 404 'Endpoint not found'", () => {
+      const request = {};
+      const response: Pick<Response, "status" | "json"> = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      const next = jest.fn();
+      const expectedError: Partial<CustomError> = {
+        message: "Endpoint not found",
+        statusCode: 404,
+      };
 
-    test("Then it should call status with a 404 code", () => {
-      const expectedCode = 404;
+      notFound(request as Request, response as Response, next);
 
-      notFound(request as Request, response as Response);
-
-      expect(response.status).toHaveBeenCalledWith(expectedCode);
-    });
-
-    test("Then it should call json with message error: 'Endpoint not found'", () => {
-      const expectedMessage = { error: "Endpoint not found" };
-
-      notFound(request as Request, response as Response);
-
-      expect(response.json).toHaveBeenCalledWith(expectedMessage);
+      expect(next).toHaveBeenCalledWith(expect.objectContaining(expectedError));
     });
   });
 });
