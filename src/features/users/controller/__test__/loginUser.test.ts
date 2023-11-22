@@ -5,6 +5,8 @@ import {
 } from "../../types";
 import usersMock from "../../mocks/mockData";
 import UserController from "../UserController";
+import { type NextFunction } from "connect";
+import type CustomError from "../../../../CustomError/CustomError";
 
 beforeEach(() => {
   jest.restoreAllMocks();
@@ -31,6 +33,7 @@ describe("Given the function getmechas in MechasController", () => {
   };
   const userController = new UserController(userMockRepository);
   process.env.JWT_SECRET_KEY = "vareipohu3492t87hHBERG6JPT908456EGHW9-8J";
+  const next = jest.fn();
 
   describe("When it is call with a Response and Request with a body with the user B0Invisibles and password tumadre as a parameter ", () => {
     const req: Pick<UserCredentialStructure, "body"> = {
@@ -45,6 +48,7 @@ describe("Given the function getmechas in MechasController", () => {
       await userController.loginUser(
         req as UserCredentialStructure,
         res as Response,
+        next as NextFunction,
       );
 
       expect(res.json).toHaveBeenCalledWith({
@@ -59,6 +63,7 @@ describe("Given the function getmechas in MechasController", () => {
       await userController.loginUser(
         req as UserCredentialStructure,
         res as Response,
+        next as NextFunction,
       );
 
       expect(res.status).toHaveBeenCalledWith(expectstatus);
@@ -73,26 +78,19 @@ describe("Given the function getmechas in MechasController", () => {
       },
     };
 
-    test("then it should call json with message { error:'User not found' }", async () => {
-      const expectedMessage = { error: "User not found" };
-      await userController.loginUser(
-        req as UserCredentialStructure,
-        res as Response,
-      );
-
-      expect(res.json).toHaveBeenCalledWith(expectedMessage);
-    });
-
-    test("then it should call status with 401", async () => {
-      const expectstatus = 401;
-      const userController = new UserController(userMockRepository);
+    test("then it should call next with 'Error bad credentials' 401 error", async () => {
+      const expectedError: Partial<CustomError> = {
+        statusCode: 401,
+        message: "Error bad credentials",
+      };
 
       await userController.loginUser(
         req as UserCredentialStructure,
         res as Response,
+        next as NextFunction,
       );
 
-      expect(res.status).toHaveBeenCalledWith(expectstatus);
+      expect(next).toHaveBeenCalledWith(expect.objectContaining(expectedError));
     });
   });
 });
