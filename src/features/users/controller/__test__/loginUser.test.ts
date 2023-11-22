@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { Response } from "express";
 import {
   type UserCredentialStructure,
   type UserMongooseRepositoryStructure,
@@ -32,7 +32,6 @@ describe("Given the function getmechas in MechasController", () => {
     json: jest.fn(),
   };
   const userController = new UserController(userMockRepository);
-  process.env.JWT_SECRET_KEY = "vareipohu3492t87hHBERG6JPT908456EGHW9-8J";
   const next = jest.fn();
 
   describe("When it is call with a Response and Request with a body with the user B0Invisibles and password tumadre as a parameter ", () => {

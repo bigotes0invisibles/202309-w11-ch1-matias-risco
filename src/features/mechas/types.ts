@@ -1,4 +1,3 @@
-import { type Request } from "express";
 interface MechaBaseStructure {
   name: string;
   image: string;
