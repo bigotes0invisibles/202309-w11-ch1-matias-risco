@@ -4,5 +4,5 @@ module.exports = {
   testEnvironment: "node",
   testMatch: ["**/src/**/*.test.ts"],
   resolver: "jest-ts-webcompat-resolver",
-  setupFilesAfterEnv: ["./src/setupTest.ts"],
+  setupFilesAfterEnv: ["./src/setUpTest.ts"],
 };
