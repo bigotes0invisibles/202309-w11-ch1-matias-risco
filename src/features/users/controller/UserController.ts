@@ -1,13 +1,19 @@
-import { type Response } from "express";
-import type UserMongooseRepository from "../repository/UsersMongooseRepository.js";
-import { type JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
+import type UserMongooseRepository from "../repository/UsersMongooseRepository.js";
+import { type Response } from "express";
+import { type JwtPayload } from "jsonwebtoken";
 import { type UserCredentialStructure } from "../types.js";
+import { type NextFunction } from "connect";
+import CustomError from "../../../CustomError/CustomError.js";
 
 class UserController {
   constructor(private readonly userRepository: UserMongooseRepository) {}
 
-  loginUser = async (req: UserCredentialStructure, res: Response) => {
+  loginUser = async (
+    req: UserCredentialStructure,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
       const { username, password } = req.body;
       const user = await this.userRepository.getUser(username, password);
@@ -15,8 +21,13 @@ class UserController {
       const token = jwt.sign(userData, process.env.JWT_SECRET_KEY!);
 
       res.status(200).json({ token });
-    } catch (error) {
-      res.status(401).json({ error: (error as Error).message });
+    } catch (privateError) {
+      const error = new CustomError(
+        "Error bad credentials",
+        401,
+        (privateError as Error).message,
+      );
+      next(error);
     }
   };
 }
