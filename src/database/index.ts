@@ -10,8 +10,9 @@ export const connectToDataBase = async (mongodbUrl: string) => {
   try {
     await mongoose.connect(mongodbUrl);
     debug(chalk.green("Connected to database"));
-  } catch {
+  } catch (error) {
     debug(chalk.red("Couldn't connect to database"));
+    debug(chalk.bgRedBright((error as Error).message));
     process.exit(1);
   }
 };
